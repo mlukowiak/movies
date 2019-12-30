@@ -3,7 +3,9 @@ from rest_framework import routers
 from api import views
 
 router = routers.DefaultRouter()
-router.register('movies', views.MoviesView)
+router.register('movies', views.MoviesViewSet)
+router.register('reviews', views.ReviewViewSet)
+router.register('favorite', views.FavoriteViewSet)
 
 urlpatterns = [
     url('', include(router.urls))

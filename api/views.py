@@ -1,13 +1,13 @@
 from urllib import request
 import requests
-from .serializers import MovieSerializer
-from .models import Movie
+from .serializers import MovieSerializer, ReviewSerializer, FavoriteSerializer
+from .models import Movie, Review, Favorite
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 from django.conf import settings
 
-class MoviesView(viewsets.ModelViewSet):
+class MoviesViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
 
@@ -22,7 +22,6 @@ class MoviesView(viewsets.ModelViewSet):
         else:
             return Response(data={"Error": "Podaj tytuł filmu!"}, status=status.HTTP_400_BAD_REQUEST)
 
-        
         url = f'http://www.omdbapi.com/?t={title}&apikey={settings.API_KEY}'
         response = requests.get(url)
         if response.status_code == requests.codes.ok and response.json()['Response'] == 'True':
@@ -39,3 +38,13 @@ class MoviesView(viewsets.ModelViewSet):
                 return Response(movie_from_database_serialized.data)
         else:
             return Response(data={"Error": "Nie ma takiego filmu!"}, status=status.HTTP_204_NO_CONTENT)
+
+class ReviewViewSet(viewsets.ModelViewSet):
+    queryset = Review.objects.all()
+    serializer_class = ReviewSerializer
+
+class FavoriteViewSet(viewsets.ModelViewSet):
+    queryset = Favorite.objects.all()
+    serializer_class = FavoriteSerializer
+
+
