@@ -21,18 +21,18 @@ Admin page - http://localhost:8000/admin<br>
 
 # Instruction
 <b>Create new user</b><br>
-Go to http://localhost:8000/api/users/ and POST username and password:
+Go to http://localhost:8000/api/v1/users/ and POST username and password:
 <img src="screens/new-user.png"/>
 
 <b>Get auth token</b><br>
-Go to http://localhost:8000/auth/, POST username and password and copy your token:
+Go to http://localhost:8000/api/v1/auth/, POST username and password and copy your token:
 <img src="screens/get-tokenpng.png"/>
 
 <b>Add new movie</b><br>
-Go to http://localhost:8000/api/movies/, POST movie title in BODY and token in HEADERS:
+Go to http://localhost:8000/api/v1/movies/, POST movie title in BODY and token in HEADERS:
 <img src="screens/new-movie-auth.png"/>
 <img src="screens/new-movie.png"/>
 
 <b>See also</b><br>
-Reviews - http://localhost:8000/api/reviews/<BR>
-Favorites - http://localhost:8000/api/favorite/<BR>
+Reviews - http://localhost:8000/api/v1/reviews/<BR>
+Favorites - http://localhost:8000/api/v1/favorite/<BR>
