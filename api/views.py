@@ -54,6 +54,5 @@ class ReviewViewSet(viewsets.ModelViewSet):
 class FavoriteViewSet(viewsets.ModelViewSet):
     queryset = Favorite.objects.all()
     serializer_class = FavoriteSerializer
-    filter_fields = ('Author')
 
 
