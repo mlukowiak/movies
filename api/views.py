@@ -1,20 +1,27 @@
 from urllib import request
 import requests
-from .serializers import MovieSerializer, ReviewSerializer, FavoriteSerializer
+from .serializers import MovieSerializer, ReviewSerializer, FavoriteSerializer, UserSerializer
 from .models import Movie, Review, Favorite
-from rest_framework import viewsets
+from django.contrib.auth.models import User
+from rest_framework import viewsets, filters
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
 from rest_framework import status
 from django.conf import settings
+import django_filters
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
 
 class MoviesViewSet(viewsets.ModelViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
-
-    def list(self, request, *args, **kwargs):
-        movies = Movie.objects.all()
-        serializer = MovieSerializer(movies, many=True)
-        return Response(serializer.data)
+    filter_backends = (filters.SearchFilter, filters.OrderingFilter)
+    filter_fields = ('Title', 'Genre')
+    search_fields = ('Title', 'Genre')
+    ordering_fields = ('id', 'Year')
+    authentication_classes = (TokenAuthentication,)
 
     def create(self, request, *args, **kwargs):
         if request.data.get("title"):
@@ -42,9 +49,11 @@ class MoviesViewSet(viewsets.ModelViewSet):
 class ReviewViewSet(viewsets.ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+    filter_fields = ('Author', 'Movie')
 
 class FavoriteViewSet(viewsets.ModelViewSet):
     queryset = Favorite.objects.all()
     serializer_class = FavoriteSerializer
+    filter_fields = ('Author')
 
 
